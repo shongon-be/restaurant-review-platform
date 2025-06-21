@@ -30,7 +30,7 @@ public class Restaurant {
     String cuisineType;
 
     @Field(type = FieldType.Text)
-    String contactInfo;
+    String contactInformation;
 
     @Field(type = FieldType.Float)
     Float avgRating;
