@@ -22,7 +22,7 @@ public class RestaurantDTO {
 
     String contactInformation;
 
-    Float avgRating;
+    Float averageRating;
 
     GeoPointDTO geoLocation;
 
