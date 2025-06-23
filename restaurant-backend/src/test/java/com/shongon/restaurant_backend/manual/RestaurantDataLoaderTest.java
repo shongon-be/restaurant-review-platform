@@ -45,7 +45,7 @@ public class RestaurantDataLoaderTest {
         restaurants.forEach(restaurant -> {
             String fileName = restaurant.getPhotoIds().get(0);
             Resource resource = resourceLoader.getResource("classpath:testdata/" + fileName);
-            MultipartFile multipartFile = null;
+            MultipartFile multipartFile;
             try {
                 multipartFile = new MockMultipartFile(
                         "file", // parameter name

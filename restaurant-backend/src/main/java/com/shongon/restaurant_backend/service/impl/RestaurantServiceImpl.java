@@ -10,6 +10,8 @@ import com.shongon.restaurant_backend.service.blueprint.RestaurantService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.geo.GeoPoint;
 import org.springframework.stereotype.Service;
 
@@ -51,5 +53,31 @@ public class RestaurantServiceImpl implements RestaurantService {
                 .build();
 
         return restaurantRepository.save(restaurant);
+    }
+
+    @Override
+    public Page<Restaurant> searchRestaurants(
+            String query, Float minRating,
+            Float latitude, Float longitude, Float radius, Pageable pageable
+    ) {
+
+        // Search by minRating
+        if (null != minRating && (null == query || query.isEmpty())){
+            return restaurantRepository.findByAverageRatingGreaterThanEqual(minRating, pageable);
+        }
+
+        Float searchMinRating = null == minRating ? 0f : minRating;
+
+        // Fuzzy search (not including minRating)
+        if (null != query && !query.trim().isEmpty()){
+            return restaurantRepository.findByQueryAndMinRating(query, searchMinRating, pageable);
+        }
+
+        // Search nearby location
+        if (null != latitude && null != longitude && null != radius){
+            return restaurantRepository.findByLocationNear(latitude, longitude, radius, pageable);
+        }
+
+        return restaurantRepository.findAll(pageable);
     }
 }
