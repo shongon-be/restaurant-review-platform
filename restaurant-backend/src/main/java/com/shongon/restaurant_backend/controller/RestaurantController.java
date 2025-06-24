@@ -64,4 +64,18 @@ public class RestaurantController {
                 )
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    @PutMapping(path = "/{restaurant_id}")
+    public ResponseEntity<RestaurantDTO> updateRestaurant(
+            @PathVariable("restaurant_id") String restaurantId,
+            @Valid @RequestBody RestaurantCreateUpdateResquestDTO requestDTO
+    ){
+
+        RestaurantCreateUpdateRequest request =
+                restaurantMapper.toRestaurantCreateUpdateRequest(requestDTO);
+
+        Restaurant updatedRestaurant = restaurantService.updateRestaurant(restaurantId,request);
+
+        return ResponseEntity.ok(restaurantMapper.toRestaurantDTO(updatedRestaurant));
+    }
 }
