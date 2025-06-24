@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -79,5 +80,10 @@ public class RestaurantServiceImpl implements RestaurantService {
         }
 
         return restaurantRepository.findAll(pageable);
+    }
+
+    @Override
+    public Optional<Restaurant> getRestaurants(String id) {
+        return restaurantRepository.findById(id);
     }
 }
