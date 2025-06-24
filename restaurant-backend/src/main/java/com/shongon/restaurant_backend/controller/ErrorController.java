@@ -2,6 +2,7 @@ package com.shongon.restaurant_backend.controller;
 
 import com.shongon.restaurant_backend.domain.dto.ErrorDTO;
 import com.shongon.restaurant_backend.exception.BaseException;
+import com.shongon.restaurant_backend.exception.RestaurantNotFoundException;
 import com.shongon.restaurant_backend.exception.StorageException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,18 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 @Slf4j
 public class ErrorController {
+
+    @ExceptionHandler(RestaurantNotFoundException.class)
+    public ResponseEntity<ErrorDTO> handleRestaurantNotFoundException(RestaurantNotFoundException e){
+        log.error("Caught RestaurantNotFoundException: {}",e.getMessage());
+
+        ErrorDTO errorDTO = ErrorDTO.builder()
+                .status(HttpStatus.NOT_FOUND.value())
+                .message("The specified restaurant was not found.")
+                .build();
+
+        return new ResponseEntity<>(errorDTO,HttpStatus.NOT_FOUND);
+    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorDTO> handleMethodArgumentNotValidException(MethodArgumentNotValidException e){
