@@ -1,7 +1,6 @@
 package com.shongon.restaurant_backend.domain.dto;
 
 
-import com.shongon.restaurant_backend.domain.entities.User;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
