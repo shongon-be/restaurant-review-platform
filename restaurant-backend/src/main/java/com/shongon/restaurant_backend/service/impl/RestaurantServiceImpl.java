@@ -76,6 +76,11 @@ public class RestaurantServiceImpl implements RestaurantService {
         return restaurantRepository.save(restaurant);
     }
 
+    @Override
+    public void deleteRestaurant(String id) {
+        restaurantRepository.deleteById(id);
+    }
+
     private Restaurant buildRestaurant(RestaurantCreateUpdateRequest request) {
         GeoPoint geoPoint = createGeoPoint(request.getAddress());
         List<Photo> photos = convertPhotoIdsToPhotos(request.getPhotoIds());
